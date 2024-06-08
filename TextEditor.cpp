@@ -1086,21 +1086,28 @@ void TextEditor::Render()
 			auto id = GetWordAt(ScreenPosToCoordinates(ImGui::GetMousePos()));
 			if (!id.empty())
 			{
-				auto it = mLanguageDefinition.mIdentifiers.find(id);
-				if (it != mLanguageDefinition.mIdentifiers.end())
+				if (mLanguageDefinition.mTooltip)
 				{
-					ImGui::BeginTooltip();
-					ImGui::TextUnformatted(it->second.mDeclaration.c_str());
-					ImGui::EndTooltip();
+					mLanguageDefinition.mTooltip(id.c_str());
 				}
 				else
 				{
-					auto pi = mLanguageDefinition.mPreprocIdentifiers.find(id);
-					if (pi != mLanguageDefinition.mPreprocIdentifiers.end())
+					auto it = mLanguageDefinition.mIdentifiers.find(id);
+					if (it != mLanguageDefinition.mIdentifiers.end())
 					{
 						ImGui::BeginTooltip();
-						ImGui::TextUnformatted(pi->second.mDeclaration.c_str());
+						ImGui::TextUnformatted(it->second.mDeclaration.c_str());
 						ImGui::EndTooltip();
+					}
+					else
+					{
+						auto pi = mLanguageDefinition.mPreprocIdentifiers.find(id);
+						if (pi != mLanguageDefinition.mPreprocIdentifiers.end())
+						{
+							ImGui::BeginTooltip();
+							ImGui::TextUnformatted(pi->second.mDeclaration.c_str());
+							ImGui::EndTooltip();
+						}
 					}
 				}
 			}

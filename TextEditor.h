@@ -8,6 +8,7 @@
 #include <unordered_map>
 #include <map>
 #include <regex>
+#include <functional>
 #include "imgui.h"
 
 class TextEditor
@@ -165,6 +166,7 @@ public:
 		typedef std::pair<std::string, PaletteIndex> TokenRegexString;
 		typedef std::vector<TokenRegexString> TokenRegexStrings;
 		typedef bool (*TokenizeCallback)(const char* in_begin, const char* in_end, const char*& out_begin, const char*& out_end, PaletteIndex& paletteIndex);
+		typedef std::function<void(const char* identifier)> TooltipCallback;
 
 		std::string mName;
 		Keywords mKeywords;
@@ -175,6 +177,7 @@ public:
 		bool mAutoIndentation;
 
 		TokenizeCallback mTokenize;
+		TooltipCallback mTooltip;
 
 		TokenRegexStrings mTokenRegexStrings;
 
@@ -184,6 +187,7 @@ public:
 			: mPreprocChar('#')
 			, mAutoIndentation(true)
 			, mTokenize(nullptr)
+			, mTooltip(nullptr)
 			, mCaseSensitive(true)
 		{
 		}
