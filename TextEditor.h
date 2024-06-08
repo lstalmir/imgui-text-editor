@@ -68,52 +68,59 @@ public:
 	struct Coordinates
 	{
 		int mLine, mColumn;
-		Coordinates() : mLine(0), mColumn(0) {}
-		Coordinates(int aLine, int aColumn) : mLine(aLine), mColumn(aColumn)
+		Coordinates()
+			: mLine(0)
+			, mColumn(0)
+		{}
+		Coordinates(int aLine, int aColumn)
+			: mLine(aLine)
+			, mColumn(aColumn)
 		{
 			assert(aLine >= 0);
 			assert(aColumn >= 0);
 		}
-		static Coordinates Invalid() { static Coordinates invalid(-1, -1); return invalid; }
-
-		bool operator ==(const Coordinates& o) const
+		static Coordinates Invalid()
 		{
-			return
-				mLine == o.mLine &&
-				mColumn == o.mColumn;
+			static Coordinates invalid(-1, -1);
+			return invalid;
 		}
 
-		bool operator !=(const Coordinates& o) const
+		bool operator==(const Coordinates& o) const
 		{
-			return
-				mLine != o.mLine ||
-				mColumn != o.mColumn;
+			return mLine == o.mLine &&
+				   mColumn == o.mColumn;
 		}
 
-		bool operator <(const Coordinates& o) const
+		bool operator!=(const Coordinates& o) const
 		{
-			if (mLine != o.mLine)
+			return mLine != o.mLine ||
+				   mColumn != o.mColumn;
+		}
+
+		bool operator<(const Coordinates& o) const
+		{
+			if(mLine != o.mLine)
 				return mLine < o.mLine;
 			return mColumn < o.mColumn;
 		}
 
-		bool operator >(const Coordinates& o) const
+		bool operator>(const Coordinates& o) const
 		{
-			if (mLine != o.mLine)
+			if(mLine != o.mLine)
 				return mLine > o.mLine;
 			return mColumn > o.mColumn;
 		}
 
-		bool operator <=(const Coordinates& o) const
+		bool operator<=(const Coordinates& o) const
 		{
-			if (mLine != o.mLine)
+			if(mLine != o.mLine)
 				return mLine < o.mLine;
 			return mColumn <= o.mColumn;
 		}
 
-		bool operator >=(const Coordinates& o) const
+		bool operator>=(const Coordinates& o) const
 		{
-			if (mLine != o.mLine)
+			if(mLine != o.mLine)
 				return mLine > o.mLine;
 			return mColumn >= o.mColumn;
 		}
@@ -141,8 +148,13 @@ public:
 		bool mMultiLineComment : 1;
 		bool mPreprocessor : 1;
 
-		Glyph(Char aChar, PaletteIndex aColorIndex) : mChar(aChar), mColorIndex(aColorIndex),
-			mComment(false), mMultiLineComment(false), mPreprocessor(false) {}
+		Glyph(Char aChar, PaletteIndex aColorIndex)
+			: mChar(aChar)
+			, mColorIndex(aColorIndex)
+			, mComment(false)
+			, mMultiLineComment(false)
+			, mPreprocessor(false)
+		{}
 	};
 
 	typedef std::vector<Glyph> Line;
@@ -152,7 +164,7 @@ public:
 	{
 		typedef std::pair<std::string, PaletteIndex> TokenRegexString;
 		typedef std::vector<TokenRegexString> TokenRegexStrings;
-		typedef bool(*TokenizeCallback)(const char * in_begin, const char * in_end, const char *& out_begin, const char *& out_end, PaletteIndex & paletteIndex);
+		typedef bool (*TokenizeCallback)(const char* in_begin, const char* in_end, const char*& out_begin, const char*& out_end, PaletteIndex& paletteIndex);
 
 		std::string mName;
 		Keywords mKeywords;
@@ -169,7 +181,10 @@ public:
 		bool mCaseSensitive;
 
 		LanguageDefinition()
-			: mPreprocChar('#'), mAutoIndentation(true), mTokenize(nullptr), mCaseSensitive(true)
+			: mPreprocChar('#')
+			, mAutoIndentation(true)
+			, mTokenize(nullptr)
+			, mCaseSensitive(true)
 		{
 		}
 
@@ -202,7 +217,7 @@ public:
 	std::vector<std::string> GetTextLines() const;
 
 	std::string GetSelectedText() const;
-	std::string GetCurrentLineText()const;
+	std::string GetCurrentLineText() const;
 
 	int GetTotalLines() const { return (int)mLines.size(); }
 	bool IsOverwrite() const { return mOverwrite; }
@@ -218,13 +233,13 @@ public:
 	Coordinates GetCursorPosition() const { return GetActualCursorCoordinates(); }
 	void SetCursorPosition(const Coordinates& aPosition);
 
-	inline void SetHandleMouseInputs    (bool aValue){ mHandleMouseInputs    = aValue;}
+	inline void SetHandleMouseInputs(bool aValue) { mHandleMouseInputs = aValue; }
 	inline bool IsHandleMouseInputsEnabled() const { return mHandleKeyboardInputs; }
 
-	inline void SetHandleKeyboardInputs (bool aValue){ mHandleKeyboardInputs = aValue;}
+	inline void SetHandleKeyboardInputs(bool aValue) { mHandleKeyboardInputs = aValue; }
 	inline bool IsHandleKeyboardInputsEnabled() const { return mHandleKeyboardInputs; }
 
-	inline void SetImGuiChildIgnored    (bool aValue){ mIgnoreImGuiChild     = aValue;}
+	inline void SetImGuiChildIgnored(bool aValue) { mIgnoreImGuiChild = aValue; }
 	inline bool IsImGuiChildIgnored() const { return mIgnoreImGuiChild; }
 
 	inline void SetShowWhitespaces(bool aValue) { mShowWhitespaces = aValue; }
@@ -362,8 +377,8 @@ private:
 	bool mScrollToTop;
 	bool mTextChanged;
 	bool mColorizerEnabled;
-	float mTextStart;                   // position (in pixels) where a code line starts relative to the left of the TextEditor.
-	int  mLeftMargin;
+	float mTextStart; // position (in pixels) where a code line starts relative to the left of the TextEditor.
+	int mLeftMargin;
 	bool mCursorPositionChanged;
 	int mColorRangeMin, mColorRangeMax;
 	SelectionMode mSelectionMode;
