@@ -1081,7 +1081,7 @@ void TextEditor::Render()
 		}
 
 		// Draw a tooltip on known identifiers/preprocessor symbols
-		if (ImGui::IsMousePosValid())
+		if (ImGui::IsMousePosValid() && ImGui::IsWindowHovered(ImGuiHoveredFlags_ForTooltip))
 		{
 			auto id = GetWordAt(ScreenPosToCoordinates(ImGui::GetMousePos()));
 			if (!id.empty())
